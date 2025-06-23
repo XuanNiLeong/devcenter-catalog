@@ -4,12 +4,12 @@ output "resource_group_name" {
 }
 
 output "app_service_name" {
-  value       = azurerm_app_service.app.name
+  value       = azurerm_linux_web_app.app.name
   description = "The name of the App Service"
 }
 
 output "app_service_url" {
-  value       = "https://${azurerm_app_service.app.default_site_hostname}"
+  value       = "https://${azurerm_linux_web_app.app.default_site_hostname}"
   description = "The URL of the App Service"
 }
 

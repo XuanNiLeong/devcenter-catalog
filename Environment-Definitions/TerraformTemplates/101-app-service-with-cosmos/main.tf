@@ -177,25 +177,20 @@ resource "azurerm_key_vault_secret" "cosmos_connection" {
 }
 
 # Create App Service Plan
-resource "azurerm_app_service_plan" "asp" {
+resource "azurerm_service_plan" "asp" {
   name                = "plan-${var.resource_name_prefix}-${random_string.resource_code.result}"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
-  kind                = "Linux"
-  reserved            = true
-
-  sku {
-    tier = "Basic"
-    size = "B1"
-  }
+  os_type             = "Linux"
+  sku_name            = "B1"
 }
 
 # Create App Service
-resource "azurerm_app_service" "app" {
+resource "azurerm_linux_web_app" "app" {
   name                = "${var.resource_name_prefix}-${random_string.resource_code.result}"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
-  app_service_plan_id = azurerm_app_service_plan.asp.id
+  service_plan_id     = azurerm_service_plan.asp.id
   https_only          = true
 
   identity {
@@ -204,7 +199,13 @@ resource "azurerm_app_service" "app" {
   }
 
   site_config {
-    linux_fx_version = var.runtime_type == "nodejs" ? "NODE|16-lts" : (var.runtime_type == "python" ? "PYTHON|3.9" : "JAVA|11-java11")
+    application_stack {
+      # Set the appropriate runtime stack based on the variable
+      node_version   = var.runtime_type == "nodejs" ? "~16" : null
+      python_version = var.runtime_type == "python" ? "3.9" : null
+      java_version   = var.runtime_type == "java" ? "11" : null
+    }
+    
     cors {
       allowed_origins     = ["*"]
       support_credentials = true
@@ -220,14 +221,25 @@ resource "azurerm_app_service" "app" {
     "AZURE_COSMOS_DATABASE_NAME"            = var.cosmos_database_name
   }
 
-  source_control {
-    repo_url = var.repo_url
-    branch   = "main"
+  # Add Git-based deployment support if repo_url is defined
+  lifecycle {
+    ignore_changes = [
+      source_control  # Ignore changes to source control to prevent continuous deployments
+    ]
   }
 
   tags = {
     "azd-service-name" = "web"
   }
+}
+
+# Configure source control for App Service
+resource "azurerm_app_service_source_control" "app_source" {
+  count                  = var.repo_url != "" ? 1 : 0
+  app_id                 = azurerm_linux_web_app.app.id
+  repo_url               = var.repo_url
+  branch                 = "main"
+  use_manual_integration = true
 }
 
 # Get current client config for Key Vault access policies
