@@ -221,10 +221,13 @@ resource "azurerm_linux_web_app" "app" {
     "AZURE_COSMOS_DATABASE_NAME"            = var.cosmos_database_name
   }
 
-  # Add Git-based deployment support if repo_url is defined
+  # Prevent Terraform from fighting with source control deployments
   lifecycle {
     ignore_changes = [
-      source_control  # Ignore changes to source control to prevent continuous deployments
+      # Ignore changes to app settings that may be modified during deployment
+      app_settings["WEBSITE_RUN_FROM_PACKAGE"],
+      # Ignore SCM type changes that happen when source control is connected
+      site_config[0].scm_type
     ]
   }
 
