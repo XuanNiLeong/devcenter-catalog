@@ -1,4 +1,4 @@
-name: AppService
+name: AppServiceTerraform
 summary: This is a deployment of an Azure App Service using Terraform.
 description: Deploys an App Service Plan and App Service for hosting web applications.
 templatePath: main.tf
@@ -48,4 +48,4 @@ parameters:
     - "GitHub"
     - "BitbucketGit"
     - "BitbucketHg"
-runner: Terraform
+runner: "adeterraformimage.azurecr.io/ade:latest"

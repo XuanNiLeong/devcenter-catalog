@@ -1,4 +1,4 @@
-name: ContainerApp
+name: ContainerAppTerraform
 summary: This is a deployment of an Azure Container App using Terraform.
 description: Deploys an Azure Container App Environment with Azure Container App.
 templatePath: main.tf
