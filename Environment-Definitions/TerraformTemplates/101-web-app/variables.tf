@@ -1,7 +1,7 @@
 variable "location" {
   type        = string
   description = "Location to deploy the environment resources"
-  default     = "westus"  # Based on the hardcoded value in the ARM template
+  default     = "australiacentral"  # Based on the hardcoded value in the ARM template
 }
 
 variable "resource_group_name" {
