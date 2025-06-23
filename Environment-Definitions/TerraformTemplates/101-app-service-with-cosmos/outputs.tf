@@ -8,11 +8,6 @@ output "app_service_name" {
   description = "The name of the App Service"
 }
 
-output "app_service_url" {
-  value       = "https://${azurerm_linux_web_app.app.default_site_hostname}"
-  description = "The URL of the App Service"
-}
-
 output "cosmos_db_name" {
   value       = azurerm_cosmosdb_account.db.name
   description = "The name of the Cosmos DB account"
