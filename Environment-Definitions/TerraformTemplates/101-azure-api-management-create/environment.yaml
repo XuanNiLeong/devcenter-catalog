@@ -1,0 +1,43 @@
+name: ApiManagementTerraform
+summary: This is a deployment of Azure API Management using Terraform.
+description: Deploys an API Management instance for managing APIs.
+templatePath: main.tf
+parameters:
+- id: "resource_group_location"
+  name: "Location"
+  description: "Azure region to deploy the resources"
+  type: "string"
+  default: "eastus"
+- id: "resource_group_name_prefix"
+  name: "Resource Group Prefix"
+  description: "Prefix of the resource group name that's combined with a random ID"
+  type: "string"
+  default: "rg"
+- id: "publisher_email"
+  name: "Publisher Email"
+  description: "The email address of the owner of the service"
+  type: "string"
+  default: "test@contoso.com"
+- id: "publisher_name"
+  name: "Publisher Name"
+  description: "The name of the owner of the service"
+  type: "string"
+  default: "publisher"
+- id: "sku"
+  name: "SKU"
+  description: "The pricing tier of this API Management service"
+  type: "string"
+  default: "Developer"
+  allowed:
+    - "Developer"
+    - "Standard"
+    - "Premium"
+- id: "sku_count"
+  name: "SKU Count"
+  description: "The instance size of this API Management service"
+  type: "number"
+  default: 1
+  allowed:
+    - 1
+    - 2
+runner: "adeterraformimage.azurecr.io/ade:latest"
