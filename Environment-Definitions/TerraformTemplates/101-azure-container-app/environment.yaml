@@ -51,4 +51,4 @@ parameters:
   description: "Container memory allocation"
   type: "string"
   default: "0.5Gi"
-runner: Terraform
+runner: "adeterraformimage.azurecr.io/ade:latest"
