@@ -2,24 +2,4 @@ name: WebAppTerraform
 summary: This is a deployment of an Azure Web App using Terraform.
 description: Deploys an App Service Plan and Web App for hosting web applications.
 templatePath: main.tf
-parameters:
-- id: "location"
-  name: "Location"
-  description: "Azure region to deploy the resources"
-  type: "string"
-  default: "westus"
-- id: "resource_group_name"
-  name: "Resource Group Name"
-  description: "Name of the resource group"
-  type: "string"
-- id: "resource_prefix"
-  name: "Resource Prefix"
-  description: "Prefix for resource names"
-  type: "string"
-  default: ""
-- id: "tags"
-  name: "Resource Tags"
-  description: "Tags to apply to environment resources"
-  type: "object"
-  default: {}
 runner: "adeterraformimage.azurecr.io/ade:latest"
