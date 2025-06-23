@@ -3,7 +3,7 @@ name: App-Service-with-Cosmos-Terraform
 version: 1.0.0
 summary: Azure App Service with Cosmos DB Environment (Terraform)
 description: Deploys an Azure App Service with Cosmos DB using Terraform, it is compatible with azd.
-runner: Terraform
+runner: "adeterraformimage.azurecr.io/ade:latest"
 templatePath: main.tf
 
 parameters:
